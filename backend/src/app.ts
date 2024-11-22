@@ -2,9 +2,10 @@ import express from 'express';
 import { estimateRideRouter } from './routes/estimateRide';
 import { confirmRideRouter } from './routes/confirmRide';
 import { userRidesRouter } from './routes/userRides';
-import { sequelize } from './config/dbConnection';
 import { populateDriver } from './config/driverSeeders';
 import { Driver } from './models/driver';
+import { Ride } from './models/ride';
+
 
 const app = express();
 const port = 3000;
@@ -19,10 +20,13 @@ app.listen(port, () => {
 
 (async () => {
     try {
-        await sequelize.sync({ force: true });
+        await Promise.all([
+            Driver.sync({ force: true }),
+            Ride.sync({ alter: true }),
+        ]);
         console.log('All models were synchronized successfully.');
         
-        populateDriver();
+        await populateDriver();
         console.log('Driver table populated successfully.')
     } catch (err) {
         console.log("Databe error: ", err);
