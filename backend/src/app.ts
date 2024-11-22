@@ -10,6 +10,8 @@ import { Ride } from './models/ride';
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 app.use('/ride/estimate', estimateRideRouter);
 app.use('/ride/confirm', confirmRideRouter);
 app.use('/ride/:customer_id', userRidesRouter);

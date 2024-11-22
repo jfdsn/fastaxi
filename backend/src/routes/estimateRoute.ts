@@ -1,10 +1,9 @@
 import { Router } from "express";
+import { estimateController } from "../controllers/estimateController";
 
 const router = Router();
 
-router.post('/', (req, res) => {
-    res.send("Logica aqui");
-});
+router.post('/', estimateController);
 
 
 export { router as estimateRideRouter }
