@@ -1,37 +1,41 @@
 import { sequelize } from "../config/dbConnection";
+import { Driver } from "./driver";
 const { DataTypes } = require('sequelize');
 
-export const Driver = sequelize.define(
-    'Driver',
+export const Ride = sequelize.define(
+    'Ride',
     {
-       id: {
+       customer_id: {
          type: DataTypes.INTEGER,
-         autoIncrement: true,
+         autoIncrement: false,
          primaryKey: true,
        },
-       name: {
+       origin: {
          type: DataTypes.STRING,
          allowNull: false,
        },
-       description: {
+       destination: {
          type: DataTypes.STRING,
          allowNull: false,
        },
-       vehicle: {
-         type: DataTypes.STRING,
+       distance: {
+         type: DataTypes.INTEGER,
          allowNull: false,
        },
-       avaliation: {
+       duration: {
          type: DataTypes.STRING,
          allowNull: true,
        },
-       tax_per_km: {
+       value: {
          type: DataTypes.DECIMAL(5,2),
          allowNull: false,
        },
-       min_distance: {
+       driver_id: {
          type: DataTypes.INTEGER,
-         allowNull: false,
+         references: {
+            model: Driver,
+            key: 'id',
+         },
        },
     }
 );
