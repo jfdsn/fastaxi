@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { InvalidDataError, InvalidDistanceError, DriverNotFoundError } from "../utils/errors";
-import { validateData } from "../services/validateService";
+import { validateConfirmData } from "../services/validateService";
 
 
 
@@ -23,7 +23,7 @@ export const confirmController = async (req: ConfirmRequest , res: Response) => 
     try {
         const {customer_id, origin, destination, distance, driver} = req.body;
 
-        validateData(customer_id, origin, destination, distance, driver);
+        validateConfirmData(customer_id, origin, destination, distance, driver);
         
         //TODO: service - salvar os dados no BD
         res.status(200).json({ "sucess": true })

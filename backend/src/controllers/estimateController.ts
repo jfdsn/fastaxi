@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { InvalidDataError } from "../utils/errors";
-import { validateData } from "../services/validateService";
+import { validateEstimateData } from "../services/validateService";
 
 
 
@@ -16,7 +16,7 @@ export const estimateController = async (req: EstimateRequest , res: Response) =
     try {
         const {customer_id, origin, destination} = req.body;
 
-        validateData(customer_id, origin, destination);
+        validateEstimateData(customer_id, origin, destination);
         
         //TODO: service - consumir api google e builder da res
     } catch (err) {
