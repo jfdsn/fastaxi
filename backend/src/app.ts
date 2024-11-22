@@ -1,7 +1,7 @@
 import express from 'express';
-import { estimateRideRouter } from './routes/estimateRide';
-import { confirmRideRouter } from './routes/confirmRide';
-import { userRidesRouter } from './routes/userRides';
+import { estimateRideRouter } from './routes/estimateRoute';
+import { confirmRideRouter } from './routes/confirmRoute';
+import { userRidesRouter } from './routes/userRoute';
 import { populateDriver } from './config/driverSeeders';
 import { Driver } from './models/driver';
 import { Ride } from './models/ride';
