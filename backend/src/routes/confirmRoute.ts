@@ -1,10 +1,9 @@
 import { Router } from "express";
+import { confirmController } from "../controllers/confirmController";
 
 const router = Router();
 
-router.patch('/', (req, res) => {
-    res.send("Logica aqui");
-});
+router.patch('/', confirmController);
 
 
 export { router as confirmRideRouter }
