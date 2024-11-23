@@ -46,10 +46,27 @@ export const validateConfirmData = async (customer_id: string, origin: string, d
     if(!driver || !driver.id) {
         throw new DriverNotFoundError('Motorista não encontrado');
     };
+
+    //Verifica o registro do motorista no BD
+    const isDriverRegistered = await DriverModel.findByPk(driver.id);
+    if(!isDriverRegistered) {
+        throw new DriverNotFoundError('Motorista não encontrado');
+    };
     
-    //TODO: retornar o valor minimo do motorista no BD
-    let driverMinDistance = 5;
+    //Retorna o valor minimo do motorista no BD
+    const driverMinDistance = await getMinDistance(driver.id); 
     if(distance < driverMinDistance) {
         throw new InvalidDistanceError('Quilometragem inválida para o motorista');
     };
+};
+
+const getMinDistance = async (id: number) => {
+    try {
+        const result = await DriverModel.findByPk(id, {attributes: ['min_distance']});
+        
+        return result?.get('min_distance') as number;
+    }catch (err) {
+        throw err;
+    }
+
 };

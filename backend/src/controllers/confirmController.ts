@@ -24,11 +24,11 @@ export const confirmController = async (req: ConfirmRequest , res: Response) => 
 
         await validateConfirmData(customer_id, origin, destination, distance, driver);
         
-        saveRide(req.body);
+        await saveRide(req.body);
 
         res.status(200).json({ "sucess": true })
     } catch (err) {
-        //TODO: tratamento dos erros
+        
         if(err instanceof InvalidDataError) {
             res.status(400).json({
                 error_code: "INVALID_DATA",
