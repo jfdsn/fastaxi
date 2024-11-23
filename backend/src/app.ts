@@ -3,8 +3,8 @@ import { estimateRideRouter } from './routes/estimateRoute';
 import { confirmRideRouter } from './routes/confirmRoute';
 import { userRidesRouter } from './routes/userRoute';
 import { populateDriver } from './config/driverSeeders';
-import { Driver } from './models/driver';
-import { Ride } from './models/ride';
+import { DriverModel } from './models/driver';
+import { RideModel } from './models/ride';
 
 
 const app = express();
@@ -23,8 +23,8 @@ app.listen(port, () => {
 (async () => {
     try {
         await Promise.all([
-            Driver.sync({ force: true }),
-            Ride.sync({ force: true }),
+            DriverModel.sync({ force: true }),
+            RideModel.sync({ force: true }),
         ]);
         console.log('All models were synchronized successfully.');
         

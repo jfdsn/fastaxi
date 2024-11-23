@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
 import { InvalidDataError, InvalidDistanceError, DriverNotFoundError } from "../utils/errors";
-import { validateConfirmData } from "../services/validateService";
-import { saveRide } from "../services/confirmService";
-import { Ride } from "../models/ride";
-
+import { saveRide, validateConfirmData } from "../services/confirmService";
 
 
 interface ConfirmRequest extends Request {
@@ -25,7 +22,7 @@ export const confirmController = async (req: ConfirmRequest , res: Response) => 
     try {
         const {customer_id, origin, destination, distance, driver} = req.body;
 
-        validateConfirmData(customer_id, origin, destination, distance, driver);
+        await validateConfirmData(customer_id, origin, destination, distance, driver);
         
         saveRide(req.body);
 
@@ -37,6 +34,7 @@ export const confirmController = async (req: ConfirmRequest , res: Response) => 
                 error_code: "INVALID_DATA",
                 error_description: err.message,
             });
+            return;
         };
 
         if(err instanceof DriverNotFoundError) {
@@ -44,6 +42,7 @@ export const confirmController = async (req: ConfirmRequest , res: Response) => 
                 error_code: "DRIVER_NOT_FOUND",
                 error_description: err.message,
             });
+            return;
         };
 
         if(err instanceof InvalidDistanceError) {
@@ -51,8 +50,16 @@ export const confirmController = async (req: ConfirmRequest , res: Response) => 
                 error_code: "INVALID_DISTANCE",
                 error_description: err.message,
             });
+            return;
         };
 
+        res.status(500).json({
+            error_code: "INTERNAL_SERVER_ERROR",
+            error_description: "Ocorreu um erro inesperado",
+        });
+
         console.log(err);
+
+        return;
     };
 };

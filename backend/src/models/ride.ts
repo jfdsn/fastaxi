@@ -1,8 +1,8 @@
 import { sequelize } from "../config/dbConnection";
-import { Driver } from "./driver";
+import { DriverModel } from "./driver";
 import { DataTypes } from 'sequelize';
 
-export const Ride = sequelize.define(
+const Ride = sequelize.define(
     'Ride',
     {   
        ride_id: {
@@ -37,7 +37,7 @@ export const Ride = sequelize.define(
        driver_id: {
          type: DataTypes.INTEGER,
          references: {
-            model: Driver,
+            model: DriverModel,
             key: 'id',
          },
          onUpdate: 'CASCADE',
@@ -53,3 +53,5 @@ export const Ride = sequelize.define(
       ]
     }
 );
+
+export { Ride as RideModel};

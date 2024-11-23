@@ -1,12 +1,12 @@
 import { sequelize } from "../config/dbConnection";
 import { DataTypes } from 'sequelize';
 
-export const Driver = sequelize.define(
+const Driver = sequelize.define(
     'Driver',
     {
        id: {
          type: DataTypes.INTEGER,
-         autoIncrement: true,
+         autoIncrement: false,
          primaryKey: true,
        },
        name: {
@@ -35,3 +35,5 @@ export const Driver = sequelize.define(
        },
     }
 );
+
+export { Driver as DriverModel};
