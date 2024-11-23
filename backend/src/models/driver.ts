@@ -1,5 +1,5 @@
 import { sequelize } from "../config/dbConnection";
-const { DataTypes } = require('sequelize');
+import { DataTypes } from 'sequelize';
 
 export const Driver = sequelize.define(
     'Driver',

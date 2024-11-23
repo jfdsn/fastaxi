@@ -32,7 +32,7 @@ export const validateConfirmData = (customer_id: string, origin: string, destina
 
     //TODO: retornar o valor minimo do motorista no BD
     let driverMinDistance = 5;
-    if(distance >= driverMinDistance) {
+    if(distance < driverMinDistance) {
         throw new InvalidDistanceError('Quilometragem inválida para o motorista');
     };
 };

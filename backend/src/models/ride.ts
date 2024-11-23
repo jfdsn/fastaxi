@@ -1,14 +1,18 @@
 import { sequelize } from "../config/dbConnection";
 import { Driver } from "./driver";
-const { DataTypes } = require('sequelize');
+import { DataTypes } from 'sequelize';
 
 export const Ride = sequelize.define(
     'Ride',
-    {
+    {   
+       ride_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+       },
        customer_id: {
          type: DataTypes.INTEGER,
-         autoIncrement: false,
-         primaryKey: true,
+         allowNull: false,
        },
        origin: {
          type: DataTypes.STRING,
@@ -24,7 +28,7 @@ export const Ride = sequelize.define(
        },
        duration: {
          type: DataTypes.STRING,
-         allowNull: true,
+         allowNull: false,
        },
        value: {
          type: DataTypes.DECIMAL(5,2),
@@ -36,6 +40,16 @@ export const Ride = sequelize.define(
             model: Driver,
             key: 'id',
          },
+         onUpdate: 'CASCADE',
+         onDelete: 'SET NULL',
+         allowNull: true,
        },
+    },
+    {
+      indexes: [
+        {
+          fields: ['customer_id']
+        }
+      ]
     }
 );

@@ -24,7 +24,7 @@ app.listen(port, () => {
     try {
         await Promise.all([
             Driver.sync({ force: true }),
-            Ride.sync({ alter: true }),
+            Ride.sync({ force: true }),
         ]);
         console.log('All models were synchronized successfully.');
         
