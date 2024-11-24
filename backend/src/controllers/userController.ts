@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { validateUserData, getRides } from "../services/userService";
-import { DriverNotFoundError, InvalidDataError } from "../utils/errors";
+import { validateUserData, getAllRides, getRidesByDriverId, RidesResponse } from "../services/userService";
+import { DriverNotFoundError, InvalidDataError, NoRidesFoundError } from "../utils/errors";
 
 export const userController = async (req: Request, res: Response) => {
     try {
@@ -9,12 +9,15 @@ export const userController = async (req: Request, res: Response) => {
 
         await validateUserData(customer_id, driver_id);
 
-        //TODO: service - resgatar rides do BD (all ou apenas do driver_id informado) ordenado por tempo
-        const result = await getRides(customer_id, driver_id);
+        let result: RidesResponse;
+        if(driver_id) {
+            result = await getRidesByDriverId(customer_id, driver_id);
+        } else {
+            result = await getAllRides(customer_id);
+        };
 
         res.status(200).json(result);
     } catch(err) {
-        //TODO: retornar error 404 NO_RIDES_FOUND em caso de não achar valores de rides
         if(err instanceof InvalidDataError) {
             res.status(400).json({
                 error_code: "INVALID_DATA",
@@ -31,6 +34,14 @@ export const userController = async (req: Request, res: Response) => {
             return;
         };
 
+        if(err instanceof NoRidesFoundError) {
+            res.status(404).json({
+                error_code: "NO_RIDES_FOUND",
+                error_description: err.message,
+            });
+            return;
+        };
+        
         res.status(500).json({
             error_code: "INTERNAL_SERVER_ERROR",
             error_description: "Ocorreu um erro inesperado",

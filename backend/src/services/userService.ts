@@ -1,6 +1,6 @@
 import { DriverModel } from "../models/driver";
 import { RideModel } from "../models/ride";
-import { DriverNotFoundError, InvalidDataError } from "../utils/errors";
+import { DriverNotFoundError, InvalidDataError, NoRidesFoundError } from "../utils/errors";
 
 interface RideDTO {
     id: number;
@@ -16,7 +16,7 @@ interface RideDTO {
     };
 }
   
-interface RidesResponse {
+export interface RidesResponse {
     customer_id: string;
     rides: RideDTO[];
 }
@@ -38,13 +38,9 @@ export const validateUserData = async (customer_id: string, driver_id: number) =
     }
 };
 
-export const getRides = async (customer_id: string, driver_id: number): Promise<RidesResponse>  => {
+export const getAllRides = async (customer_id: string): Promise<RidesResponse>  => {
     try {
-        if(driver_id) {
-            console.log("TODO")
-        }
-
-        const allRides = RideModel.findAll({
+        const allRides = await RideModel.findAll({
             where: {
                 customer_id: customer_id,
             },
@@ -62,9 +58,61 @@ export const getRides = async (customer_id: string, driver_id: number): Promise<
             ],
         });
 
+        if(allRides.length === 0) {
+            throw new NoRidesFoundError('Nenhum registro encontrado');
+        }
+
         return {
             customer_id: customer_id,
-            rides: (await allRides).map((ride) => ({
+            rides: allRides.map((ride) => ({
+                id: ride.ride_id,
+                date: ride.createdAt,
+                origin: ride.origin,
+                destination: ride.destination,
+                distance: ride.distance,
+                duration: ride.duration,
+                value: ride.value,
+                driver:
+                    {
+                        id: ride.driver_id,
+                        name: ride.driver_name,
+                    },
+            })),
+        }
+    } catch(err) {
+        throw err;
+    }
+
+};
+
+export const getRidesByDriverId = async (customer_id: string, driver_id: number): Promise<RidesResponse>  => {
+    try {
+        const allRides = await RideModel.findAll({
+            where: {
+                customer_id: customer_id,
+                driver_id: driver_id
+            },
+            order: [["createdAt", "DESC"]],
+            attributes: [
+                "ride_id",
+                "origin",
+                "destination",
+                "distance",
+                "duration",
+                "driver_id",
+                "driver_name",
+                "value",
+                "createdAt",
+            ],
+        });
+
+        if(allRides.length === 0) {
+            throw new NoRidesFoundError('Nenhum registro encontrado');
+        }
+
+        return {
+            customer_id: customer_id,
+            rides: allRides.map((ride) => ({
                 id: ride.ride_id,
                 date: ride.createdAt,
                 origin: ride.origin,

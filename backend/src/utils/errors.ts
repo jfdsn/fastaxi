@@ -18,3 +18,10 @@ export class InvalidDistanceError extends Error {
       this.name = 'InvalidDistanceError';
     };
 };
+
+export class NoRidesFoundError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = 'NoRidesFoundError';
+    };
+};
