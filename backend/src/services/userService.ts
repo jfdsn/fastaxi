@@ -13,7 +13,7 @@ interface RideDTO {
     driver: {
       id: number;
       name: string;
-    } | null;
+    };
 }
   
 interface RidesResponse {
@@ -49,19 +49,14 @@ export const getRides = async (customer_id: string, driver_id: number): Promise<
                 customer_id: customer_id,
             },
             order: [["createdAt", "DESC"]],
-            include: [
-                {
-                    model: DriverModel,
-                    as: "driver",
-                    attributes: ["id", "name"],
-                },
-            ],
             attributes: [
                 "ride_id",
                 "origin",
                 "destination",
                 "distance",
                 "duration",
+                "driver_id",
+                "driver_name",
                 "value",
                 "createdAt",
             ],
@@ -76,13 +71,12 @@ export const getRides = async (customer_id: string, driver_id: number): Promise<
                 destination: ride.destination,
                 distance: ride.distance,
                 duration: ride.duration,
-                value: parseFloat(ride.value),
-                driver: ride.driver 
-                    ? {
-                        id: ride.driver.id,
-                        name: ride.driver.name,
-                    }
-                : null,
+                value: ride.value,
+                driver:
+                    {
+                        id: ride.driver_id,
+                        name: ride.driver_name,
+                    },
             })),
         }
     } catch(err) {

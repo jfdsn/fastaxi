@@ -10,9 +10,9 @@ export const userController = async (req: Request, res: Response) => {
         await validateUserData(customer_id, driver_id);
 
         //TODO: service - resgatar rides do BD (all ou apenas do driver_id informado) ordenado por tempo
-        await getRides(customer_id, driver_id);
-        
-        
+        const result = await getRides(customer_id, driver_id);
+
+        res.status(200).json(result);
     } catch(err) {
         //TODO: retornar error 404 NO_RIDES_FOUND em caso de não achar valores de rides
         if(err instanceof InvalidDataError) {

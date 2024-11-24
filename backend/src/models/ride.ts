@@ -1,4 +1,3 @@
-import { DriverModel } from "./driver";
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
 interface RideAttributes {
@@ -9,7 +8,8 @@ interface RideAttributes {
   distance: number;
   duration: string;
   value: number;
-  driver_id?: number | null;
+  driver_id: number;
+  driver_name: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -24,7 +24,8 @@ class Ride extends Model<RideAttributes, RideCreationAttributes> implements Ride
   public distance!: number;
   public duration!: string;
   public value!: number;
-  public driver_id!: number | null;
+  public driver_id!: number;
+  public driver_name!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 };
@@ -63,14 +64,12 @@ const initRideModel = (sequelize: Sequelize): typeof Ride => {
       },
       driver_id: {
         type: DataTypes.INTEGER,
-        references: {
-          model: DriverModel,
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL",
-        allowNull: true,
+        allowNull: false,
       },
+      driver_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      }
     },
     {
       sequelize,

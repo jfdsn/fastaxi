@@ -30,6 +30,7 @@ export const saveRide = async (ride: RideData ): Promise<void> => {
         duration: ride.duration,
         value: ride.value,
         driver_id: ride.driver.id,
+        driver_name: ride.driver.name,
     });
 };
 
