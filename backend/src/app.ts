@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use('/ride/estimate', estimateRideRouter);
 app.use('/ride/confirm', confirmRideRouter);
-app.use('/ride/:customer_id', userRidesRouter);
+app.use('/ride', userRidesRouter);
 
 app.listen(port, () => {
     console.log(`Server working: localhost:${port}`);
