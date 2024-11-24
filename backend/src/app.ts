@@ -5,6 +5,7 @@ import { userRidesRouter } from './routes/userRoute';
 import { populateDriver } from './config/driverSeeders';
 import { DriverModel } from './models/driver';
 import { RideModel } from './models/ride';
+import { initializeModels } from './config/initializeModels';
 
 
 const app = express();
@@ -22,14 +23,9 @@ app.listen(port, () => {
 
 (async () => {
     try {
-        await Promise.all([
-            DriverModel.sync({ force: true }),
-            RideModel.sync({ force: true }),
-        ]);
-        console.log('All models were synchronized successfully.');
+        await initializeModels();
         
         await populateDriver();
-        console.log('Driver table populated successfully.')
     } catch (err) {
         console.log("Databe error: ", err);
     }

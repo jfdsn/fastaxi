@@ -31,4 +31,6 @@ export const populateDriver = async () => {
                 min_distance: 10,
             },
         ])
-}
+
+        console.log('Driver table populated successfully.')
+};
