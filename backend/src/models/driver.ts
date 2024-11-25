@@ -5,8 +5,9 @@ interface DriverAttributes {
     name: string;
     description: string;
     vehicle: string;
-    avaliation?: string | null;
-    tax_per_km: number;
+    comment: string;
+    rating: number;
+    value: number;
     min_distance: number;
     createdAt?: Date;
     updatedAt?: Date;
@@ -19,8 +20,9 @@ class Driver extends Model<DriverAttributes, DriverCreationAttributes> implement
     public name!: string;
     public description!: string;
     public vehicle!: string;
-    public avaliation!: string | null;
-    public tax_per_km!: number;
+    public comment!: string;
+    public rating!: number;
+    public value!: number;
     public min_distance!: number;
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
@@ -46,11 +48,15 @@ const initDriverModel = (sequelize: Sequelize): typeof Driver => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      avaliation: {
+      comment: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
-      tax_per_km: {
+      rating: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      value: {
         type: DataTypes.DECIMAL(5, 2),
         allowNull: false,
       },

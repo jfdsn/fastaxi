@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { InvalidDataError } from "../utils/errors";
-import { validateEstimateData } from "../services/estimateService";
+import { formatResponse, validateEstimateData } from "../services/estimateService";
+import { routesApiService } from "../services/routesApiService";
 
 
 
@@ -18,10 +19,16 @@ export const estimateController = async (req: EstimateRequest , res: Response) =
 
         validateEstimateData(customer_id, origin, destination);
         
-        //TODO: service - consumir api google e builder da res
-        res.status(200).send("resp temporaria")
+        //Calcula rota via api routes do google
+        const apiResponse = await routesApiService(origin, destination);
+        
+        const response = await formatResponse(apiResponse);
+
+        res.status(200).send({
+            description: "Operação realizada com sucesso",
+            data: response
+        });
     } catch (err) {
-        //TODO: tratamento dos erros
         if(err instanceof InvalidDataError) {
             res.status(400).json({
                 error_code: "INVALID_DATA",

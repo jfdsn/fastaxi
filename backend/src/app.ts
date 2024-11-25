@@ -3,10 +3,7 @@ import { estimateRideRouter } from './routes/estimateRoute';
 import { confirmRideRouter } from './routes/confirmRoute';
 import { userRidesRouter } from './routes/userRoute';
 import { populateDriver } from './config/driverSeeders';
-import { DriverModel } from './models/driver';
-import { RideModel } from './models/ride';
 import { initializeModels } from './config/initializeModels';
-
 
 const app = express();
 const port = 3000;
@@ -27,6 +24,6 @@ app.listen(port, () => {
         
         await populateDriver();
     } catch (err) {
-        console.log("Databe error: ", err);
+        console.log("Database error: ", err);
     }
 })();
