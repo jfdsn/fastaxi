@@ -2,10 +2,23 @@ import { useState } from "react";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { api } from "../utils/api";
+import { DriverSelect } from "../components/DriverSelect";
+import { ApiResponse, RidesList } from "../components/RidesList";
 
 function History() {
     const [customerId, setCustomerId] = useState("");
     const [driverId, setDriverId] = useState("All");
+    const [data, setData] = useState<ApiResponse>({
+        customer_id: '',
+        rides: [],
+        description: ''
+    });
+
+    const driverOptions = [
+        {value: "1", name: "Homer Simpson"},
+        {value: "2", name: "Dominic Toretto"},
+        {value: "3", name: "James Bond"}
+    ]
  
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCustomerId(event.target.value);
@@ -19,7 +32,8 @@ function History() {
         const route = driverId === "All"? `/${customerId}` : `/${customerId}?driver_id=${driverId}`
         api.get(route)
         .then(response => {
-            console.log(response);
+            const apiData: ApiResponse = response.data.data;
+            setData(apiData);
         })
         .catch(error => {
             console.log(error)
@@ -27,7 +41,7 @@ function History() {
     };
     
     return (
-        <>
+        <div>
             <p>History page</p>
             <Input 
                 name="customerId" 
@@ -37,15 +51,12 @@ function History() {
             >
                 Id do usuário:
             </Input>
-            <label htmlFor="drivers">Motorista: </label>
-            <select name="drivers" id="drivers" onChange={handleDriverChange}>
-                <option value="1">Homer Simpson</option>
-                <option value="2">Dominic Toretto</option>
-                <option value="3">James Bond</option>
-                <option value="All" selected>Todos</option>
-            </select>
-            <Button onClick={handleSubmit}>Buscar</Button>
-        </>
+            <div>
+                <DriverSelect onChange={handleDriverChange} options={driverOptions}/>
+                <Button onClick={handleSubmit}>Buscar</Button>
+            </div>
+            <RidesList data={data}/>
+        </div>
     )
 }
 

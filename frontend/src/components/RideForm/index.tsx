@@ -6,6 +6,20 @@ import { api } from "../../utils/api";
 import { ErrorInfo } from "../ErrorInfo";
 import { FormContainer } from "./style";
 
+interface Coordinate {
+    latitude: number,
+    longitude: number
+};
+
+export interface RideData {
+    destination: Coordinate,
+    distance: number,
+    duration: string,
+    options: [],
+    origin: Coordinate,
+    routeResponse: [],
+};
+
 export const RideForm = () => {
     const [formValues, setFormValues] = useState({
         customerId: "",
@@ -33,9 +47,10 @@ export const RideForm = () => {
             destination: formValues.destination
         }).then(response => {
             //Caso tenha sucesso, navega para pagina options enviando o response e os dados preenchidos
+            const rideData: RideData = response.data?.data;
             navigate('/options', { 
                 state: { 
-                    rideData: response.data?.data,
+                    rideData: rideData,
                     customerId: formValues.customerId,
                     origin: formValues.origin,
                     destination: formValues.destination

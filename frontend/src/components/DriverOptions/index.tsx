@@ -4,6 +4,7 @@ import { CardContainer, Title, DriverCard, Description, DriverInfo, Name, Price,
 import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 import { ErrorInfo } from "../ErrorInfo";
+import { RideData } from "../RideForm";
 
 interface Driver {
     id: string;
@@ -19,7 +20,7 @@ interface Driver {
 
 interface DriverOptionsProps {
     drivers: Driver[];
-    rideData: any;
+    rideData: RideData;
     customerId: string;
     origin: string;
     destination: string;
@@ -36,7 +37,6 @@ export const DriverOptions: React.FC<DriverOptionsProps> = ({
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();    
     
-    //TODO: arrumar função do botão confirmar
     const handleChooseDriver = async (driverId: string, driverName: string, value: number) => {
         setErrorMessage("");    
         
@@ -45,7 +45,7 @@ export const DriverOptions: React.FC<DriverOptionsProps> = ({
             origin: origin, 
             destination: destination, 
             distance: rideData.distance,
-            duration: rideData.distance,
+            duration: rideData.duration,
             driver: {
                 id: driverId,
                 name: driverName

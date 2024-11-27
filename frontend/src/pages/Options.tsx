@@ -4,7 +4,6 @@ import { DriverOptions } from "../components/DriverOptions";
 function Options() {
     const location = useLocation();
     const { rideData, customerId, origin, destination } = location.state; 
-    console.log(rideData);
 
     return (
         <>
