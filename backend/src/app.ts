@@ -5,9 +5,12 @@ import { userRidesRouter } from './routes/userRoute';
 import { populateDriver } from './config/driverSeeders';
 import { initializeModels } from './config/initializeModels';
 
+const cors = require('cors');
+
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/ride/estimate', estimateRideRouter);
