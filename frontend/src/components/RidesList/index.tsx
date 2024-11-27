@@ -59,7 +59,7 @@ export const RidesList: React.FC<RidesListProps> = ({ data }) => {
             </RideCard>
           ))
         ) : (
-          <p>Nenhuma viagem encontrada.</p>
+          <p>Faça uma busca de suas viagens salvas</p>
         )}
       </RideListContainer>
     );

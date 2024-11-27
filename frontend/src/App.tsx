@@ -1,17 +1,25 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
 import './App.css';
+import Home from './pages/Home';
 import Options from './pages/Options';
 import History from './pages/History';
+import { Footer } from './components/Footer';
+import { Header } from './components/Header';
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/options' element={<Options/>}/>
-        <Route path='/history' element= {<History/>}/>
-      </Routes>
+      <div id='app-container'>
+        <Header/>
+        <main>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/options' element={<Options/>}/>
+            <Route path='/history' element= {<History/>}/>
+          </Routes>
+        </main>
+        <Footer/>
+      </div>
     </BrowserRouter>
   )
 }

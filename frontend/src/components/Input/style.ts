@@ -9,7 +9,7 @@ export const InputStyle = styled.input `
 
     &:focus {
     outline: none;
-    border-color: yellow;
+    border-color: #f7cd33;
     }
 `;
 

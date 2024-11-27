@@ -59,12 +59,16 @@ export const RideForm = () => {
         .catch(error => {
             const message = error.response?.data?.error_description || "Ocorreu um erro inesperado";
             setErrorMessage(message);
+            if(message !== "Ocorreu um erro inesperado") {
+                alert("Verifique se preencheu corretamente os dados.");
+            } else alert("Ops estamos com algum problema no momento! Tente novamente.")
         });
     };
 
     return (
         <FormContainer>
-            <ErrorInfo>{errorMessage}</ErrorInfo>  
+            <h3>Faça a estimativa para sua rota:</h3>  
+            <ErrorInfo>{errorMessage}</ErrorInfo>
             <Input 
                 name="customerId" 
                 value={formValues.customerId}

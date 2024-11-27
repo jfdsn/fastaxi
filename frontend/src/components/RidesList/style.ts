@@ -21,6 +21,7 @@ export const RideCard = styled.div`
 export const RideInfo = styled.p`
     margin: 4px 0;
     line-height: 1.5;
+    color: #555;
 
     span {
     font-weight: bold;

@@ -27,7 +27,7 @@ export const StaticMap: React.FC<StaticMapProps> = ({ origin, destination }) => 
             alt={`Mapa mostrando a rota de (${origin.latitude}, ${origin.longitude}) para (${destination.latitude}, ${destination.longitude})`}
             />
         ) : (
-            <p>Carregando mapa...</p>
+            <p>Ops tivemos problemas no carregamento do mapa...</p>
         )}
     </div>
     );

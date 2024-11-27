@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { api } from "../../utils/api";
-import { CardContainer, Title, DriverCard, Description, DriverInfo, Name, Price, Rating, Vehicle } from "./style";
+import { CardContainer, DriverCard, Description, DriverInfo, Name, Price, Rating, Comment, Vehicle, AvaliationContainer, DriverOptionsContainer } from "./style";
 import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 import { ErrorInfo } from "../ErrorInfo";
@@ -56,28 +56,35 @@ export const DriverOptions: React.FC<DriverOptionsProps> = ({
         }).catch(error => {
             const message = error.response?.data?.error_description || "Ocorreu um erro inesperado";
             setErrorMessage(message);
+            if(message !== "Ocorreu um erro inesperado") {
+              alert("Verifique se preencheu corretamente os dados.");
+            } else alert("Ops estamos com algum problema no momento! Tente novamente.")
         });
     };
     
     return (
-      <CardContainer>
-        <Title>{hasDrivers ? "Escolha um motorista: " : "Nenhum motorista disponível para sua rota :("}</Title>
+      <DriverOptionsContainer>
+        <h3>{hasDrivers ? "Escolha um motorista: " : "Nenhum motorista disponível para sua rota :("}</h3>
         <ErrorInfo>{errorMessage}</ErrorInfo>  
-        {drivers.map(driver => (
-          <DriverCard key={driver.id}>
-            <DriverInfo>
-              <Name>{driver.name}</Name>
-              <Description>{driver.description}</Description>
-              <Vehicle>Veículo: {driver.vehicle}</Vehicle>
-              <Price>Valor: R$ {driver.value.toFixed(2)}</Price>
-              <Rating>Avaliação: {driver.review.rating}/5</Rating>
-              <p>{driver.review.comment}</p>
-            </DriverInfo>
-            <Button onClick={() => handleChooseDriver(driver.id, driver.name, driver.value)}>
-              Confirmar
-            </Button>
-          </DriverCard>
-        ))}
-      </CardContainer>
+        <CardContainer>
+          {drivers.map(driver => (
+            <DriverCard key={driver.id}>
+              <DriverInfo>
+                <Name>{driver.name}</Name>
+                <Description>{driver.description}</Description>
+                <Vehicle>Veículo: {driver.vehicle}</Vehicle>
+                <Price>Valor: R$ {driver.value.toFixed(2)}</Price>
+                <AvaliationContainer>
+                  <Rating>Avaliação: {driver.review.rating}/5</Rating>
+                  <Comment>{driver.review.comment}</Comment>
+                </AvaliationContainer>
+              </DriverInfo>
+              <Button onClick={() => handleChooseDriver(driver.id, driver.name, driver.value)}>
+                Confirmar
+              </Button>
+            </DriverCard>
+          ))}
+        </CardContainer>
+      </DriverOptionsContainer>
     );
   };

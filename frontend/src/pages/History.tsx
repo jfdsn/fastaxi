@@ -4,8 +4,10 @@ import { Button } from "../components/Button";
 import { api } from "../utils/api";
 import { DriverSelect } from "../components/DriverSelect";
 import { ApiResponse, RidesList } from "../components/RidesList";
+import { ErrorInfo } from "../components/ErrorInfo";
 
 function History() {
+    const [errorMessage, setErrorMessage] = useState("");
     const [customerId, setCustomerId] = useState("");
     const [driverId, setDriverId] = useState("All");
     const [data, setData] = useState<ApiResponse>({
@@ -29,32 +31,55 @@ function History() {
     };
 
     const handleSubmit = async () => {
+        if(customerId === "") {
+            setData({
+                customer_id: '',
+                rides: [],
+                description: ''
+            });
+            alert("Informe o valor de id do usuário!")
+        };
+
         const route = driverId === "All"? `/${customerId}` : `/${customerId}?driver_id=${driverId}`
         api.get(route)
         .then(response => {
             const apiData: ApiResponse = response.data.data;
             setData(apiData);
+            setErrorMessage("");
         })
         .catch(error => {
-            console.log(error)
+            const message = error.response?.data?.error_description || "Ocorreu um erro inesperado";
+            setErrorMessage(message);
+
+            if(message === "Nenhum registro encontrado") {
+                alert("Não há registros para os dados informados.")
+                setData({
+                    customer_id: '',
+                    rides: [],
+                    description: ''
+                });
+            }
         })
     };
     
     return (
-        <div>
-            <p>History page</p>
-            <Input 
-                name="customerId" 
-                value={customerId}
-                onChange={handleChange}
-                placeholder="Digite o id de usuário"
-            >
-                Id do usuário:
-            </Input>
+        <div className="flex-column">
+            <h3>Faça uma busca pelas viagens já confirmadas:</h3>
             <div>
-                <DriverSelect onChange={handleDriverChange} options={driverOptions}/>
-                <Button onClick={handleSubmit}>Buscar</Button>
+                <Input 
+                    name="customerId" 
+                    value={customerId}
+                    onChange={handleChange}
+                    placeholder="Digite o id de usuário"
+                >
+                    Id do usuário:
+                </Input>
+                <div className="flex-row">
+                    <DriverSelect onChange={handleDriverChange} options={driverOptions}/>
+                    <Button onClick={handleSubmit}>Buscar</Button>
+                </div>
             </div>
+            <ErrorInfo>{errorMessage}</ErrorInfo> 
             <RidesList data={data}/>
         </div>
     )

@@ -1,19 +1,22 @@
 import styled from "styled-components";
 
-export const CardContainer = styled.div `
+export const DriverOptionsContainer = styled.div `
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+`;
+
+export const CardContainer = styled.div `
+    display: flex;
+    flex-direction: row;
     gap: 16px;
     padding: 20px;
 `;
 
-export const Title = styled.h2`
-    text-align: center;
-    color: #333;
-`;
-
 export const DriverCard = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     border: 1px solid #ddd;
@@ -46,7 +49,19 @@ export const Vehicle = styled.p`
     color: #555;
 `;
 
+export const AvaliationContainer = styled.div `
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+`;
+
 export const Rating = styled.p`
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+`;
+
+export const Comment = styled.p`
     margin: 0;
     font-size: 14px;
     color: #555;
