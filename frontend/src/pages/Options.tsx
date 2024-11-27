@@ -3,12 +3,19 @@ import { DriverOptions } from "../components/DriverOptions";
 
 function Options() {
     const location = useLocation();
-    const rideData = location.state?.rideData;
+    const { rideData, customerId, origin, destination } = location.state; 
+    console.log(rideData);
 
     return (
         <>
             <p>Options page</p>
-            <DriverOptions drivers={rideData.options[0]}/>
+            <DriverOptions 
+                drivers={rideData.options[0]}
+                rideData={rideData}
+                customerId={customerId}
+                origin={origin}
+                destination={destination}
+            />
         </>
         
     )

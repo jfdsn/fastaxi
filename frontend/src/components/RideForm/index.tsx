@@ -8,7 +8,7 @@ import { FormContainer } from "./style";
 
 export const RideForm = () => {
     const [formValues, setFormValues] = useState({
-        userId: "",
+        customerId: "",
         origin: "",
         destination: ""
     });
@@ -28,11 +28,18 @@ export const RideForm = () => {
 
         //Chama a api na rota ride/estimate com os valores preenchidos
         await api.post("/estimate", {
-            customer_id: formValues.userId,
+            customer_id: formValues.customerId,
             origin: formValues.origin,
             destination: formValues.destination
         }).then(response => {
-            navigate('/options', { state: { rideData: response.data?.data } });
+            //Caso tenha sucesso, navega para pagina options enviando o response e os dados preenchidos
+            navigate('/options', { 
+                state: { 
+                    rideData: response.data?.data,
+                    customerId: formValues.customerId,
+                    origin: formValues.origin,
+                    destination: formValues.destination
+            }});
         })
         .catch(error => {
             const message = error.response?.data?.error_description || "Ocorreu um erro inesperado";
@@ -44,8 +51,8 @@ export const RideForm = () => {
         <FormContainer>
             <ErrorInfo>{errorMessage}</ErrorInfo>  
             <Input 
-                name="userId" 
-                value={formValues.userId}
+                name="customerId" 
+                value={formValues.customerId}
                 onChange={handleChange}
                 placeholder="Digite o id de usuário"
             >
