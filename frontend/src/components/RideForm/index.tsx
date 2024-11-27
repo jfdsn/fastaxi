@@ -12,12 +12,14 @@ interface Coordinate {
 };
 
 export interface RideData {
-    destination: Coordinate,
-    distance: number,
-    duration: string,
-    options: [],
-    origin: Coordinate,
-    routeResponse: [],
+   response: {
+       destination: Coordinate,
+       distance: number,
+       duration: string,
+       options: [],
+       origin: Coordinate,
+       routeResponse: [],
+   } 
 };
 
 export const RideForm = () => {
@@ -47,10 +49,10 @@ export const RideForm = () => {
             destination: formValues.destination
         }).then(response => {
             //Caso tenha sucesso, navega para pagina options enviando o response e os dados preenchidos
-            const rideData: RideData = response.data?.data;
+            const rideData: RideData = response.data;
             navigate('/options', { 
                 state: { 
-                    rideData: rideData,
+                    rideData: rideData.response,
                     customerId: formValues.customerId,
                     origin: formValues.origin,
                     destination: formValues.destination

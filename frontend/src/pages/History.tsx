@@ -43,8 +43,8 @@ function History() {
         const route = driverId === "All"? `/${customerId}` : `/${customerId}?driver_id=${driverId}`
         api.get(route)
         .then(response => {
-            const apiData: ApiResponse = response.data.data;
-            setData(apiData);
+            const apiData = response.data;
+            setData(apiData.response);
             setErrorMessage("");
         })
         .catch(error => {
