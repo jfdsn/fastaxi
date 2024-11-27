@@ -24,10 +24,7 @@ export const estimateController = async (req: EstimateRequest , res: Response) =
         
         const response = await formatResponse(apiResponse);
 
-        res.status(200).send({
-            description: "Operação realizada com sucesso",
-            data: response
-        });
+        res.status(200).send({ response });
     } catch (err) {
         if(err instanceof InvalidDataError) {
             res.status(400).json({

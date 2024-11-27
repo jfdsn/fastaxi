@@ -16,10 +16,7 @@ export const userController = async (req: Request, res: Response) => {
             response = await getAllRides(customer_id);
         };
 
-        res.status(200).json({
-            description: "Operação realizada com sucesso",
-            data: response
-        });
+        res.status(200).json({ response });
     } catch(err) {
         if(err instanceof InvalidDataError) {
             res.status(400).json({
