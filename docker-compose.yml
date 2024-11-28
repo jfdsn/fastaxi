@@ -1,17 +1,18 @@
 services:
   backend:
-    build:
-      context: ./backend
-    ports:
-      - "8080:3000"  # Porta do host: 8080 -> Porta do contêiner: 3000
+    build: ./backend
+    container_name: fastaxi-backend
+    environment:
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
     volumes:
       - ./backend:/backend
-
+    ports:
+      - "8080:3000" 
 
   frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "80:5173"  # Porta do host: 80 -> Porta do contêiner: 5173
+    build: ./frontend
+    container_name: fastaxi-frontend
     volumes:
       - ./frontend:/frontend
+    ports:
+      - "80:5173" 

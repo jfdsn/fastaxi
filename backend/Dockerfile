@@ -7,9 +7,7 @@ COPY package-lock.json ./
 
 RUN npm install
 
-RUN npm i -g nodemon
-
-COPY . ./
+COPY . .
 
 EXPOSE 3000
 

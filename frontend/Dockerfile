@@ -7,9 +7,7 @@ COPY package-lock.json ./
 
 RUN npm install
 
-RUN npm i -g vite
-
-COPY . ./
+COPY . .
 
 EXPOSE 5173
 
