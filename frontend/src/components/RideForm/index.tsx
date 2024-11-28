@@ -11,7 +11,7 @@ interface Coordinate {
     longitude: number
 };
 
-export interface RideData {
+interface RideDataResponse {
    response: {
        destination: Coordinate,
        distance: number,
@@ -49,7 +49,7 @@ export const RideForm = () => {
             destination: formValues.destination
         }).then(response => {
             //Caso tenha sucesso, navega para pagina options enviando o response e os dados preenchidos
-            const rideData: RideData = response.data;
+            const rideData: RideDataResponse = response.data;
             navigate('/options', { 
                 state: { 
                     rideData: rideData.response,

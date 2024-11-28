@@ -4,18 +4,32 @@ import { CardContainer, DriverCard, Description, DriverInfo, Name, Price, Rating
 import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 import { ErrorInfo } from "../ErrorInfo";
-import { RideData } from "../RideForm";
+
+
+interface Coordinate {
+  latitude: number,
+  longitude: number
+};
+
+interface RideData {
+      destination: Coordinate,
+      distance: number,
+      duration: string,
+      options: [],
+      origin: Coordinate,
+      routeResponse: [],
+};
 
 interface Driver {
-    id: string;
-    name: string;
-    description: string;
-    vehicle: string;
-    review: {
-        rating: number,
-        comment: string
-    };
-    value: number;
+  id: string;
+  name: string;
+  description: string;
+  vehicle: string;
+  review: {
+      rating: number,
+      comment: string
+  };
+  value: number;
 };
 
 interface DriverOptionsProps {
