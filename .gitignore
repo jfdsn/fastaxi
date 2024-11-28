@@ -21,7 +21,6 @@ dist-ssr
 .vite/
 .vitepress/
 
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
